@@ -1,5 +1,6 @@
 package com.ultrapower.hadoop;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.util.Date;
 
 import org.apache.hadoop.conf.Configuration;
@@ -24,19 +26,22 @@ import org.apache.hadoop.util.ReflectionUtils;
 public class HdfsUtils {
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		String fileName = "D:\\logs\\test1.txt";
-		String compressMethod = "org.apache.hadoop.io.compress.BZipCodec";
-
+		String compressMethod = "org.apache.hadoop.io.compress.BZip2Codec";
+		
 		Configuration cf = new Configuration();
 
 		Class codecClass = Class.forName(compressMethod);
 
-		String hdfsDir = "hdfs://spark1:9000/jack";
+		String hdfsDir = "hdfs://spark1:9000/jack/test1.bz2";
 
 		CompressionCodec codec = (CompressionCodec) ReflectionUtils.newInstance(codecClass, cf);
+		
+//		FileSystem fs = FileSystem.get(URI.create(hdfsPath), conf);
+		
 
 		File fileIn = new File(fileName);
 		InputStream in = new FileInputStream(fileIn);
-
+  
 		// 该压缩方法对应的文件扩展名
 		File fileOut = new File(fileName + codec.getDefaultExtension());
 		fileOut.delete();
@@ -104,6 +109,28 @@ public class HdfsUtils {
 			e.printStackTrace();
 			return false;
 		}
+		return true;
+	}
+	
+	/**@author 压缩上传
+	 * 
+	 * @param cpMethod
+	 * @param localPath
+	 * @param hdfsPath
+	 * @param conf
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 */
+	public static boolean uploadCompress(String cpMethod ,String localPath ,String hdfsPath, Configuration conf) throws ClassNotFoundException, IOException {
+		 Class codecClass = Class.forName(cpMethod);
+		 CompressionCodec codec = (CompressionCodec) ReflectionUtils.newInstance(codecClass, conf);
+		 FileSystem fs = FileSystem.get(URI.create("hdfsPath"),conf);
+		 InputStream ins = new BufferedInputStream(new FileInputStream(localPath));
+		 OutputStream ous =  fs.create(new Path(hdfsPath));
+		 CompressionOutputStream  cout = codec.createOutputStream(ous);
+		 IOUtils.copyBytes(ins, cout,1024 ,true);
+ 
 		return true;
 	}
 }
