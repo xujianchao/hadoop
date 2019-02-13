@@ -25,7 +25,7 @@ import org.apache.hadoop.util.ReflectionUtils;
  */
 public class HdfsUtils {
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
-		String fileName = "D:\\logs\\test1.txt";
+		String fileName = "D:\\logs\\test1.txt"; 
 		String compressMethod = "org.apache.hadoop.io.compress.BZip2Codec";
 		
 		Configuration cf = new Configuration();
