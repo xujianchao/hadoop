@@ -1,0 +1,5 @@
+com\ultrapower\hadoop\HdfsUtils.class
+com\ultrapower\hadoop\mrdemo\MaxTemperature$MaxTemperatureMapper.class
+com\ultrapower\hadoop\mrdemo\MaxTemperature$MaxTemperatureReducer.class
+com\ultrapower\hadoop\mrdemo\MaxTemperature.class
+com\ultrapower\hadoop\utils\Compress.class
