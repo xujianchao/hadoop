@@ -63,7 +63,7 @@ public class MaxTemperature {
 		//数据  0067011990999991950051507004888888889999999N9+00001+9999999999999999999999
 		//天气全部数据  ftp://ftp.ncdc.noaa.gov/pub/data/noaa/1901/
 		//日志目录 log4j  http://spark2:8042/logs/userlogs/
-		//hadoop jar hadoop-0.0.1-SNAPSHOT.jar  com.ultrapower.hadoop.mrdemo.MaxTemperature hdfs://spark1:9000/temperature/mp.txt/mp.txt hdfs://spark1:9000/temperature/output
+		//hadoop jar hadoop-0.0.1-SNAPSHOT.jar  -D mapreduce.reduce.memory.mb=512  com.ultrapower.hadoop.mrdemo.MaxTemperature hdfs://spark1:9000/temperature/mp.txt/mp.txt hdfs://spark1:9000/temperature/output
 		LOG.info("args[0]======="+args[0]);
 		LOG.info("args[1]======="+args[1]);
 		Configuration conf = new Configuration();
